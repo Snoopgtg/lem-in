@@ -47,7 +47,7 @@ int 	set_const_l(t_rs *rooms, int i, int **min)
 	return (f);
 }
 
-void 	find_name_n2(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
+void 	find_name_n2(t_lnk *link, t_rs *rooms, int i, t_rs rn1, int **min)
 {
 	int		c;
 
@@ -56,15 +56,15 @@ void 	find_name_n2(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 	{
 		if (!rooms[c].fl && ft_strequ(link->n2, rooms[c].n))
 		{
-			if (*l == 2147483647)
-				*l = 1;
+			//if (rn1.lw->len == 2147483647)
+				//rn1.lw->len = 1;
 			//if (*l + 1 <= rooms[c].l)
 			//{
 				if (rooms[c].l == 2147483647)
 					rooms[c].l = 1;
 				rooms[c].q = ft_strdup(link->n1);
-				rooms[c].l += *l;
-				fill_q(&rooms[c].lw, link->n1, rooms[c].l);
+				fill_q(&rooms[c].lw, link->n1, rn1.lw);
+				rooms[c].l = min_from_listq(rooms[c].lw);
 				**min = rooms[c].l;
 			//}
 			return ;
@@ -73,7 +73,7 @@ void 	find_name_n2(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 	}
 }
 
-void 	find_name_n1(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
+void 	find_name_n1(t_lnk *link, t_rs *rooms, int i, t_rs rn2, int **min)
 {
 	int		c;
 
@@ -82,15 +82,16 @@ void 	find_name_n1(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 	{
 		if (!rooms[c].fl && ft_strequ(link->n1, rooms[c].n))
 		{
-			if (*l == 2147483647)
-				*l = 1;
+			//if (rooms[c].l == 2147483647)
+			//	rooms[c].l = 1;
 			//if (*l + 1 <= rooms[c].l)
 			//{
 				if (rooms[c].l == 2147483647)
 					rooms[c].l = 1;
 				rooms[c].q = ft_strdup(link->n2);
-				rooms[c].l += *l;
-				fill_q(&rooms[c].lw, link->n2, rooms[c].l);// передавати не тільки імя а і список aw
+				fill_q(&rooms[c].lw, link->n2, rn2.lw);// передавати не тільки імя а і список aw
+				rooms[c].l = min_from_listq(rooms[c].lw);
+
 				**min = rooms[c].l;
 			//}
 			return ;
@@ -112,19 +113,49 @@ int		find_link(t_rs **rooms, t_lnk *link, int i, int *min)
 	while (tmp)
 	{
 		if (ft_strequ((*rooms)[f].n, tmp->n1))
-			find_name_n2(tmp, (*rooms), i, &(*rooms)[f].l, &min);
+			find_name_n2(tmp, (*rooms), i, (*rooms)[f], &min);
 		else if (ft_strequ((*rooms)[f].n, tmp->n2))
-			find_name_n1(tmp, (*rooms), i, &(*rooms)[f].l, &min);
+			find_name_n1(tmp, (*rooms), i, (*rooms)[f], &min);
 		tmp = tmp->nx;
 	}
 	return (2);
 }
 
+int		counte_start_end(t_rs *room, t_lnk *links, int k)
+{
+	int 	s;
+	int 	e;
+	int		c;
+	int		l;
+	t_lnk	*tmp;
+
+	s = 0;
+	e = 0;
+	c = 0;
+	l = 0;
+	while (--k >= 0)
+	{
+		(room[k].fst == 1) ? c = k : 0;
+		(room[k].fen == 1) ? l = k : 0;
+	}
+	tmp = links;
+	while (tmp)
+	{
+		if (ft_strequ(room[c].n, tmp->n1) || ft_strequ(room[c].n, tmp->n2))
+			s++;
+		if (ft_strequ(room[l].n, tmp->n1) || ft_strequ(room[l].n, tmp->n2))
+			e++;
+		tmp = tmp->nx;
+	}
+	return ((s < e) ? s : e);
+}
+
 int		try_way(t_lb *bs)
 {
 	int r;
-
-	while (1)
+	int c;
+	c = counte_start_end(bs->r, bs->link, bs->c);
+	while (--c >= 0)
 	{
 		r = find_link(&bs->r, bs->link, bs->c, &bs->min);
 		if (r == 1)
@@ -137,4 +168,5 @@ int		try_way(t_lb *bs)
 			return (0);
 		}
 	}
+	return (1);
 }
