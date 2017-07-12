@@ -170,3 +170,4 @@ int		try_way(t_lb *bs)
 	}
 	return (1);
 }
+//TEST

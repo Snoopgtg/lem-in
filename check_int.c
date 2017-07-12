@@ -53,9 +53,3 @@ int		check_pos(char *s, int a)
 		return (0);
 	return (check_pos(s + i + 1, --a));
 }
-
-/*
-int		fill_link(char *s)
-{
-
-}*/

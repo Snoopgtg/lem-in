@@ -1,47 +1,77 @@
 #include "lem-in.h"
 
+//*************************************************************************
+#include <fcntl.h>
+//*************************************************************************
+
 /*
 ** startend flag for start 1
 ** 					end 2
 **					default 0
 ** імя має бути чаром;
 */
-int		fill_name(char *s, int fse)
+int fill_name(char *s, t_lb *bs)
 {
-	s++;
-	if (!check_pos(s, 2))
+	int i;
+	char *tmp;
+
+	i = 0;
+	while (s[i] != ' ')
+		i++;
+	i++;
+	if (!check_pos(s + i, 2))
 		return (0);
-	if (fse == 1)
-		st = 1;
-	else if (fse == 2)
-		end = 1;
-	else
-		all = 1;
+	tmp = ft_strsub(s, 0 , (size_t)(i - 1));
+	ft_printf("%s\n", s);
+	ft_strdel(&s);
+	fill_room(bs, tmp);
+	ft_strdel(&tmp);
+	ft_strdel(&s);
 	return (1);
 }
 
-int 	ft_hesh(char *s, int *fse)
+int ft_hesh_start_end(char *s, t_lb *bs, int fd)
 {
-	if (ft_strcmp("##start", s) || ft_strcmp("##end", s))
+	if (ft_strequ("##start", s))
 	{
-		if (ft_strcmp("##start", s))
-			*fse = 1;
-		else
-			*fse = 2;
-		ft_printf("%s\n", s);
-		return (fill_name(s, *fse));
+		if (bs->fst)
+		{
+			ft_strdel(&s);
+			return (0);
+		}
+		bs->fst = 1;
 	}
-	else if (s[0] == '#' && s[1] != '#')
+	else
 	{
-		ft_printf("%s", s);
-		return (1);
+		if (bs->fen)
+		{
+			ft_strdel(&s);
+			return (0);
+		}
+		bs->fen = 1;
+	}
+	ft_printf("%s\n", s);
+	ft_strdel(&s);
+	get_next_line(fd, &s);
+	return (ft_start(s, bs));
+}
+
+int ft_hesh(char *s, t_lb *bs, int fd)
+{
+	if (ft_strequ("##start", s) || ft_strequ("##end", s))
+		return (ft_hesh_start_end(s, bs, fd));
+	else if (ft_strnequ("##", s, 2) && s[2] != '#')
+	{
+		ft_printf("%s\n", s);
+		ft_strdel(&s);
+		get_next_line(fd, &s);
+		ft_printf("%s\n", s);
+		free(s);
 	}
 	else
 	{
 		ft_printf("%s\n", s);
-		get_next_line(0, &s);
-		ft_printf("%s\n", s);
-		free(s);
+		ft_strdel(&s);
 	}
 	return (1);
 
@@ -62,6 +92,7 @@ int ft_numofant(char *s, int *na, int *fna)
 	*na = ft_atoi(s);
 	*fna = 1;
 	ft_printf("%d\n", *na);
+	ft_strdel(&s);
 	return (1);
 }
 
@@ -70,44 +101,67 @@ int ft_start(char *s, t_lb *bs)
 	int i;
 
 	i = 0;
-	if (*s == '-' || *s == ' ')
+	if (*s == '-' || *s == ' ' || *s == 'L')
 		return (0);
 	while ((s[i] != ' ' && s[i] != '-') && s[i])
 		i++;
 	if (s[i] == '\0')
 		return (ft_numofant(s, &bs->na, &bs->fna));
 	else if (s[i] == ' ')
-		return (fill_name(s + i, 0));
+		return (fill_name(s, bs));
 	else if (s[i] == '-')
-		return (0/*fill_link(s)*/);
+		return (check_links(s, bs));
 	return (0);
 
 }
 
-int		main(void)
+int		main(int argc, char **argv)
 {
 	char	*line;
 	int		r;
 	t_lb	bs;
 	int 	fd;
 
-	fd = 0;
+	//*****************************DELETE*********************************
+	if (argc || argv)
+		;
+	fd = open(argv[1], O_RDONLY);
+	//fd = 0;
+	//********************************************************************
 	bs.rnm = NULL;
+	bs.link = NULL;
+	bs.r = NULL;
+	bs.go = NULL;
+	line = 0;
 	fill_zero(&bs);
 	while (get_next_line(fd, &line))
 	{
 		if (line[0] == '#')
-			r = ft_hesh(line, &bs.fse);
+		{
+			r = ft_hesh(line, &bs, fd);
+		}
 		else
+		{
 			r = ft_start(line, &bs);
-		if (r == 0/* && check_start_end_ant(bs)*/)
+		}
+		if (r == 0)
 		{
 			write(1, "ERROR\n", 6);
 			return (1);
 		}
 	}
+	if (!bs.fna || !bs.se || !bs.ee || !ft_create(bs.rnm, &bs.r, &bs.c) || !try_way(&bs))
+	{
+		write(1, "ERROR in links\n", 15);
+		return (1);//спробувати порахувати з тих даних що ввели і ретурт прибрати
+	}
+	//get_way(&bs);
+	//try_way(&bs);
+	//get_way(&bs);
 	ft_printf("All CORRECT");
-	return 0;
+	//ft_del(&bs);
+	//sleep(120);
+	return (0);
 }
 // матрица смежности
-//18446744073709551619  1 -2147483648 18446744073709551619
+//18446744073709551619  1 -2147483648 с
