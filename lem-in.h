@@ -31,12 +31,7 @@
 ** min		min l in room
 */
 
-typedef struct 		s_aw
-{
-	char			*q;
-	int 			len;
-	struct s_aw		*nx;
-}					t_aw;
+
 
 typedef struct		s_wr
 {
@@ -53,7 +48,7 @@ typedef struct 		s_rs
 	int 			l;
 	int 			fl;
 	char			*q;
-	t_aw			*lw;
+	int 			in;
 }					t_rs;
 
 typedef struct		s_rn
@@ -99,7 +94,8 @@ long	ft_longatoi(const char *str);
 int 	check_int(char *s, int f);
 
 void	fill_zero(t_lb *bs);
-int		min_from_listq(t_aw *q);
+void	set_fl_to_zero(t_rs **room, int c);
+//int		min_from_listq(t_aw *q);
 
 int		ft_create(t_rn *room, t_rs **rs, int *i);
 
@@ -116,6 +112,6 @@ void	get_way(t_lb *bs);
 
 void	ft_del(t_lb *bs);
 
-void	fill_q(t_aw **name, char *n, t_aw *lq);
+//void	fill_q(t_aw **name, char *n, t_aw *lq);
 
 #endif

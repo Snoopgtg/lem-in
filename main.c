@@ -125,7 +125,7 @@ int		main(int argc, char **argv)
 	//*****************************DELETE*********************************
 	if (argc || argv)
 		;
-	fd = open(argv[2], O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
 	//fd = 0;
 	//********************************************************************
 	bs.rnm = NULL;
@@ -163,3 +163,4 @@ int		main(int argc, char **argv)
 	//sleep(120);
 	return (0);
 }
+//18446744073709551619

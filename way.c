@@ -7,7 +7,7 @@ int 	is_temp_l(t_rs *rooms, int i, int *min)
 	c = 0;
 	while (c < i)
 	{
-		if (!rooms[c].fl)
+		if (!rooms[c].fl && rooms[c].in)
 		{
 			*min = rooms[c].l;
 			return (1);
@@ -30,7 +30,7 @@ int 	set_const_l(t_rs *rooms, int i, int **min)
 		return (-1);
 	while (c < i)
 	{
-		if (!rooms[c].fl && rooms[c].l <= **min)
+		if (!rooms[c].fl && rooms[c].in && rooms[c].l <= **min)
 		{
 			**min = rooms[c].l;
 			f = c;
@@ -54,7 +54,7 @@ void 	find_name_n2(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 	c = 0;
 	while (c < i)
 	{
-		if (!rooms[c].fl && ft_strequ(link->n2, rooms[c].n))
+		if (!rooms[c].fl && rooms[c].in && ft_strequ(link->n2, rooms[c].n))
 		{
 			if (*l == 2147483647)
 				*l = 1;
@@ -63,7 +63,7 @@ void 	find_name_n2(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 				if (rooms[c].l == 2147483647)
 					rooms[c].l = 1;
 				rooms[c].q = ft_strdup(link->n1);
-				rooms[c].l += *l;
+				rooms[c].l = (*l + 1 == rooms[c].l) ? *l : rooms[c].l + *l;
 				**min = rooms[c].l;
 				//link->in = 0;
 			}
@@ -80,7 +80,7 @@ void 	find_name_n1(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 	c = 0;
 	while (c < i)
 	{
-		if (!rooms[c].fl && ft_strequ(link->n1, rooms[c].n))
+		if (!rooms[c].fl && rooms[c].in && ft_strequ(link->n1, rooms[c].n))
 		{
 			if (*l == 2147483647)
 				*l = 1;
@@ -89,9 +89,9 @@ void 	find_name_n1(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 				if (rooms[c].l == 2147483647)
 					rooms[c].l = 1;
 				rooms[c].q = ft_strdup(link->n2);
-				rooms[c].l += *l;
+				rooms[c].l = (*l + 1 == rooms[c].l) ? *l : rooms[c].l + *l;
 				**min = rooms[c].l;
-				link->in = 0;
+				//link->in = 0;
 			}
 			return ;
 		}

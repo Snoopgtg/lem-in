@@ -28,7 +28,7 @@ void	copy_list_name(t_rn *room, t_rs *rs, int i)
 		rs[c].q = 0;
 		rs[c].l = (tmp->fst) ? 0 : 2147483647;
 		rs[c].fl = 0;
-		rs[c].lw = NULL;
+		rs[c].in = 1;
 		tmp = tmp->nx;
 		c++;
 	}
@@ -48,4 +48,19 @@ int		ft_create(t_rn *room, t_rs **rs, int *i)
 		return (0);
 	copy_list_name(room, *rs, (*i));
 	return (1);
+}
+
+void	set_fl_to_zero(t_rs **room, int c)
+{
+	int i;
+
+	i = 0;
+	while (i < c)
+	{
+		(*room)[i].fl = 0;
+		if ((*room)[i].q)
+			ft_strdel(&(*room)[i].q);
+		(*room)[i].l = ((*room)[i].fst) ? 0 : 2147483647;
+		i++;
+	}
 }

@@ -45,7 +45,7 @@ void	fill_wr(t_wr **way, char *str, int i, int l)
 	*way = tmp;
 }
 
-void	look_name(char *n, t_rs *room, int c, t_wr **pyt, int l)
+void	look_name(char *n, t_rs **room, int c, t_wr **pyt, int l)
 {
 	int i;
 	//char *trash;
@@ -53,15 +53,16 @@ void	look_name(char *n, t_rs *room, int c, t_wr **pyt, int l)
 	i = 0;
 	while (i < c)
 	{
-		if (room[i].fst && ft_strequ(room[i].n, n))
+		if ((*room)[i].fst && ft_strequ((*room)[i].n, n))
 		{
-			fill_wr(pyt, room[i].n, 0, l);
+			fill_wr(pyt, (*room)[i].n, 0, l);
 			return ;
 		}
-		if (room[i].fl && ft_strequ(room[i].n, n))
+		if ((*room)[i].fl && ft_strequ((*room)[i].n, n))
 		{
-			fill_wr(pyt, room[i].n, 0, l);
-			look_name(room[i].q, room, c, pyt, l);
+			fill_wr(pyt, (*room)[i].n, 0, l);
+			look_name((*room)[i].q, room, c, pyt, l);
+			(*room)[i].in = 0;
 		}
 		i++;
 	}
@@ -86,10 +87,11 @@ void	get_way(t_lb *bs)
 			trash = bs->way;
 			bs->way = ft_strjoin(trash, " ");
 			ft_strdel(&trash);*/
-			look_name(room[i].q, room, bs->c, &bs->go, bs->min);
+			look_name(room[i].q, &bs->r, bs->c, &bs->go, bs->min);
 			//прервати цикл, коли знаходимо останню кімнату далі шукати кімнати не потрібно
 		}
 		i++;
 	}
 	ft_printf("%s\n", bs->go->res);
+	set_fl_to_zero(&bs->r, bs->c);
 }
