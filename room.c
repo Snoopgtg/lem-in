@@ -43,6 +43,7 @@ void	fill_room(t_lb *bs, char *s)
 		bs->fst = 0;
 		bs->se = 1;
 		bs->min = 0;
+		bs->start = ft_strdup(tmp->n);
 	}
 	else if (bs->fen)
 	{
@@ -50,6 +51,7 @@ void	fill_room(t_lb *bs, char *s)
 		tmp->fst = 0;
 		bs->fen = 0;
 		bs->ee = 1;
+		bs->end = ft_strdup(tmp->n);
 	}
 	else
 	{

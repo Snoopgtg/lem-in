@@ -20,6 +20,8 @@
 ** s_w		list of ready way
 ** t_wr		list of way result
 ** t_aw		all possible way
+** s_wr1	list of all possible way
+** s_sr		array of list of all possible way
 ** q 		name of room from
 ** len		length of way in current room
 ** m		weight of link
@@ -29,16 +31,27 @@
 ** se		for check start error
 ** ee		for check end error
 ** min		min l in room
+** nway		number of way
 */
 
 
-
-typedef struct		s_wr
+typedef struct		s_wr1
 {
-	char 			*res;
+	char 			*n;
+	int 			in;
+	struct s_wr1	*nx;
+	struct s_wr1	*pr;
+
+}					t_wr1;
+
+typedef struct		s_sr
+{
 	int 			l;
-	struct s_wr		*nx;
-}					t_wr;
+	struct s_wr1	*ww;
+	struct s_wr1	*jopa;
+
+
+}					t_sr;
 
 typedef struct 		s_rs
 {
@@ -76,7 +89,9 @@ typedef struct		s_lb
 	t_rn			*rnm;
 	t_lnk			*link;
 	t_rs			*r;
-	t_wr			*go;
+	t_sr			*go1;
+	char			*start;
+	char			*end;
 	int				c;
 	int 			na;
 	int				fna;
@@ -85,7 +100,7 @@ typedef struct		s_lb
 	int				se;
 	int 			ee;
 	int				min;
-	int				ll;
+	int				nway;
 }					t_lb;
 
 
@@ -108,9 +123,12 @@ int		check_links(char *s, t_lb *bs);
 int 	try_way(t_lb *bs);
 
 void 	set_name(char *str, char **n, int f);
-void	get_way(t_lb *bs);
+void 	get_way(t_lb *bs, int l);
+void	check_start_end_in_way(t_sr *way, char *start, char *end);
 
 void	ft_del(t_lb *bs);
+
+void	push_ants(t_lb *bs);
 
 //void	fill_q(t_aw **name, char *n, t_aw *lq);
 

@@ -131,7 +131,7 @@ int		main(int argc, char **argv)
 	bs.rnm = NULL;
 	bs.link = NULL;
 	bs.r = NULL;
-	bs.go = NULL;
+	bs.go1 = NULL;
 	line = 0;
 	fill_zero(&bs);
 	while (get_next_line(fd, &line))
@@ -155,12 +155,90 @@ int		main(int argc, char **argv)
 		write(1, "ERROR in links\n", 15);
 		return (1);//спробувати порахувати з тих даних що ввели і ретурт прибрати
 	}
-	//get_way(&bs);
-	//try_way(&bs);
-	//get_way(&bs);
 	ft_printf("All CORRECT");
 	//ft_del(&bs);
 	//sleep(120);
 	return (0);
 }
 //18446744073709551619
+/*
+2
+##start
+start 0 1
+##end
+end 100 100
+0 94 66
+2 39 31
+4 35 24
+5 52 42
+4-0
+start-4
+start-2
+start-5
+start-4
+end-2
+end-5
+end-0
+
+ 2
+##start
+start 0 1
+##end
+end 100 100
+0 16 99
+1 42 7
+2 71 8
+3 45 64
+4 55 63
+5 16 59
+6 33 98
+7 10 27
+8 61 64
+9 76 89
+10 2 53
+11 19 92
+12 81 4
+0-11
+1-8
+2-4
+2-10
+3-1
+3-11
+3-5
+3-2
+3-11
+3-0
+3-12
+3-4
+3-8
+3-4
+3-0
+3-7
+4-3
+5-2
+6-12
+6-0
+7-12
+8-10
+8-2
+8-1
+8-6
+8-4
+9-12
+9-0
+9-3
+10-3
+11-10
+12-9
+start-3
+start-9
+start-5
+start-7
+start-8
+end-8
+end-10
+end-11
+end-12
+end-4
+end-1
+ */

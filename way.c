@@ -63,7 +63,7 @@ void 	find_name_n2(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 				if (rooms[c].l == 2147483647)
 					rooms[c].l = 1;
 				rooms[c].q = ft_strdup(link->n1);
-				rooms[c].l = (*l + 1 == rooms[c].l) ? *l : rooms[c].l + *l;
+				rooms[c].l = (*l + 1 == rooms[c].l) ? *l + 1 : rooms[c].l + *l;
 				**min = rooms[c].l;
 				//link->in = 0;
 			}
@@ -89,7 +89,7 @@ void 	find_name_n1(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 				if (rooms[c].l == 2147483647)
 					rooms[c].l = 1;
 				rooms[c].q = ft_strdup(link->n2);
-				rooms[c].l = (*l + 1 == rooms[c].l) ? *l : rooms[c].l + *l;
+				rooms[c].l = (*l + 1 == rooms[c].l) ? *l + 1 : rooms[c].l + *l;
 				**min = rooms[c].l;
 				//link->in = 0;
 			}
@@ -154,9 +154,14 @@ int		try_way(t_lb *bs)
 	int r;
 	int c;
 
-	c = counte_start_end(bs->r, bs->link, bs->c);
-	while (--c >= 0)
+	c = -1;
+	if ((bs->nway = counte_start_end(bs->r, bs->link, bs->c)) == 0)
+		return (0);
+	if (!(bs->go1 = (t_sr *)malloc(sizeof(t_sr) * bs->nway)))
+		return (0);
+	while (++c < bs->nway)
 	{
+		bs->go1[c].ww = NULL;
 		while (1)
 		{
 			r = find_link(&bs->r, bs->link, bs->c, &bs->min);
@@ -170,7 +175,8 @@ int		try_way(t_lb *bs)
 				return (0);
 			}
 		}
-		get_way(bs);//записати маршрут і помітити кімнати та лінки як пройдені
+		get_way(bs, c);//записати маршрут і помітити кімнати та лінки як пройдені
 	}
+	push_ants(bs);
 	return (1);
 }

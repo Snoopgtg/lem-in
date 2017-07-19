@@ -5,7 +5,6 @@ void	fill_zero(t_lb *bs)
 	bs->fna = 0;
 	bs->fst = 0;
 	bs->fen = 0;
-	bs->ll = 0;
 	bs->c = 0;
 	bs->se = 0;
 	bs->ee = 0;
