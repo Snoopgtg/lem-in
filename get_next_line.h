@@ -3,29 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tgogol <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: ysalata <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/01/19 15:35:48 by tgogol            #+#    #+#             */
-/*   Updated: 2017/01/19 17:57:54 by tgogol           ###   ########.fr       */
+/*   Created: 2017/03/18 19:59:52 by ysalata           #+#    #+#             */
+/*   Updated: 2017/03/20 18:38:56 by ysalata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef _GET_NEXT_LINE_H
+# define _GET_NEXT_LINE_H
 
-# include "libft.h"
-# include <stdlib.h>
+# define BUFF_SIZE 1
+
 # include <unistd.h>
+# include <stdlib.h>
+# include "libft.h"
 
-# define BUFF_SIZE	1
+int					get_next_line(int const fd, char **line);
 
-typedef struct		s_gnl
+typedef	struct		s_fdlist
 {
-	int				fdc;
-	char			*s;
-	struct s_gnl	*next;
-}					t_gnl;
+	int				fd;
+	char			*buf;
+	struct s_fdlist	*next;
 
-int					get_next_line(const int fd, char **line);
+}					t_fdlist;
 
 #endif

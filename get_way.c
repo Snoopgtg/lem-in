@@ -1,27 +1,5 @@
 #include "lem-in.h"
 
-void 	set_name(char *str, char **n, int f)
-{
-	char *trash;
-
-	if (f)
-	{
-		*n = ft_strdup(str);
-		//ft_strdel(&str);
-		trash = *n;
-		*n = ft_strjoin(trash, "-");
-		//ft_strdel(&trash);
-	}
-	else
-	{
-		trash = *n;
-		*n = ft_strjoin(trash, str);
-		//ft_strdel(&trash);
-		trash = *n;
-		*n = ft_strjoin(trash, "-");
-		//ft_strdel(&trash);
-	}
-}
 /*
 ** int start for fill ants in start room
 ** 1 - is start
@@ -80,13 +58,15 @@ void look_name(char *n, t_rs **room, int c, t_wr1 **pyt, int ants)
 		i++;
 	}
 }
-void 	get_way(t_lb *bs, int l)
+void	get_way(t_lb *bs, int l)
 {
 	int		i;
+	int 	f;
 	t_rs	*room;
 	//char 	*trash;
 
 	i = 0;
+	f = 0;
 	room = bs->r;
 	while (i < bs->c)
 	{

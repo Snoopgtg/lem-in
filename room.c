@@ -1,6 +1,6 @@
 #include "lem-in.h"
 
-void	print_list(t_lb *bs)
+/*void	print_list(t_lb *bs)
 {
 	t_rn *tmp;
 
@@ -10,7 +10,7 @@ void	print_list(t_lb *bs)
 		ft_printf(RED"name = %s fst = %d fen = %d\n"RC, tmp->n, tmp->fst, tmp->fen);
 		tmp = tmp->nx;
 	}
-}
+}*/
 
 int		check_dubl_name(t_rn *rooms, char *n)
 {

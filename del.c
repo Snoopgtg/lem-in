@@ -1,6 +1,6 @@
 #include "lem-in.h"
 
-void ft_del_rs(t_rs *room, int c)
+void 	ft_del_rs(t_rs *room, int c)
 {
 	int i;
 
@@ -30,6 +30,28 @@ void	del_name(t_rn *name)
 	name = NULL;
 }
 
+void	del_way(t_sr *all_way, int c)
+{
+	int 	i;
+	t_wr1 	*tmp;
+	t_wr1 	*trash;
+
+	i = -1;
+	while (++i < c)
+	{
+		trash = all_way[i].ww;
+		while (trash)
+		{
+			tmp = trash->nx;
+			ft_strdel(&trash->n);
+			free(trash);
+			trash = tmp;
+		}
+		all_way[i].ww = NULL;
+	}
+	//free(&all_way[0]);
+}
+
 void	del_link(t_lnk *name)
 {
 	t_lnk *tmp;
@@ -52,4 +74,5 @@ void	ft_del(t_lb *bs)
 	ft_del_rs(bs->r, bs->c);
 	del_name(bs->rnm);
 	del_link(bs->link);
+	del_way(bs->go1, bs->nway);
 }

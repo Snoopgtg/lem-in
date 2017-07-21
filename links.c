@@ -1,6 +1,6 @@
 #include "lem-in.h"
 
-void	print_links(t_lb *bs)
+/*void	print_links(t_lb *bs)
 {
 	t_lnk *tmp;
 
@@ -10,7 +10,7 @@ void	print_links(t_lb *bs)
 		ft_printf(YEL"n1 = %s, n2 = %s\n"RC, tmp->n1, tmp->n2);
 		tmp = tmp->nx;
 	}
-}
+}*/
 
 int check_dubl_link(t_lnk *link, char *n1, char *n2)
 {

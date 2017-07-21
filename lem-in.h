@@ -41,7 +41,6 @@ typedef struct		s_wr1
 	char 			*n;
 	int 			in;
 	struct s_wr1	*nx;
-	struct s_wr1	*pr;
 
 }					t_wr1;
 
@@ -49,8 +48,6 @@ typedef struct		s_sr
 {
 	int 			l;
 	struct s_wr1	*ww;
-
-
 }					t_sr;
 
 typedef struct 		s_rs
@@ -72,7 +69,6 @@ typedef struct		s_rn
 	int 			l;
 	int 			fl;
 	struct s_rn		*nx;
-	struct s_rn		*bg;
 }					t_rn;
 
 typedef struct		s_lnk
@@ -81,7 +77,6 @@ typedef struct		s_lnk
 	char 			*n2;
 	int 			in;
 	struct s_lnk	*nx;
-	struct s_lnk	*bg;
 }					t_lnk;
 
 typedef struct		s_lb
@@ -124,12 +119,12 @@ int		check_links(char *s, t_lb *bs);
 int 	try_way(t_lb *bs);
 
 void 	set_name(char *str, char **n, int f);
-void 	get_way(t_lb *bs, int l);
+void get_way(t_lb *bs, int l);
 void	check_start_end_in_way(t_sr *way, char *start, char *end);
 
 void	ft_del(t_lb *bs);
 
-void	push_ants(t_lb *bs);
+int push_ants(t_lb *bs);
 
 //void	fill_q(t_aw **name, char *n, t_aw *lq);
 
