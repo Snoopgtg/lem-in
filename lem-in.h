@@ -12,6 +12,7 @@
 ** *nx		next element of list
 ** *bg		begin first element of list
 ** na		number of ant
+** naa		number of ant for go it
 ** fna		flag for only one number of ant
 ** fst		flag for only one start
 ** fen		flag for only one end
@@ -48,7 +49,6 @@ typedef struct		s_sr
 {
 	int 			l;
 	struct s_wr1	*ww;
-	struct s_wr1	*jopa;
 
 
 }					t_sr;
@@ -94,6 +94,7 @@ typedef struct		s_lb
 	char			*end;
 	int				c;
 	int 			na;
+	int 			naa;
 	int				fna;
 	int				fst;
 	int 			fen;

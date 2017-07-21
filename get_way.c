@@ -22,33 +22,43 @@ void 	set_name(char *str, char **n, int f)
 		//ft_strdel(&trash);
 	}
 }
-
-void fill_wr(char *str, t_sr *resway)
+/*
+** int start for fill ants in start room
+** 1 - is start
+**/
+void fill_wr(char *str, t_wr1 **resway, int start, int ants)
 {
 	//t_wr	*tmp;
 	t_wr1	*temp;
+	t_wr1	*curr;
 
-	temp = resway->ww;
-	//tmp = *way;
 	if (!(temp = (t_wr1 *)malloc(sizeof(t_wr1))))
 		return ;
-	//set_name(str, &tmp->res, i);
-	temp->in = 0;
+	if (start)
+		temp->in = ants;
+	else
+		temp->in = 0;
 	temp->n = ft_strdup(str);
-	temp->nx = resway->ww;
-	if (resway->ww != NULL)
+	temp->nx = NULL;
+	if (*resway == NULL)
+		*resway = temp;
+	else
 	{
-		resway->ww->pr = temp;
-		resway->ww->nx = temp;
+		curr = *resway;
+		while (curr->nx)
+			curr = curr->nx;
+		curr->nx = temp;
 	}
+
+	/*temp->nx = resway->ww;
+	if (resway->ww != NULL)
+		resway->ww->pr = temp;
  	resway->ww = temp;
-	temp->pr = NULL;
-	//tmp->l = l;
-	//tmp->nx = *way;
-	//*way = tmp;
+	temp->pr = NULL;*/
+
 }
 
-void look_name(char *n, t_rs **room, int c, t_sr *pyt)
+void look_name(char *n, t_rs **room, int c, t_wr1 **pyt, int ants)
 {
 	int i;
 	//char *trash;
@@ -58,13 +68,13 @@ void look_name(char *n, t_rs **room, int c, t_sr *pyt)
 	{
 		if ((*room)[i].fst && ft_strequ((*room)[i].n, n))
 		{
-			fill_wr((*room)[i].n, pyt);
+			fill_wr((*room)[i].n, pyt, 1, ants);
 			return ;
 		}
 		if ((*room)[i].fl && ft_strequ((*room)[i].n, n))
 		{
-			fill_wr((*room)[i].n, pyt);
-			look_name((*room)[i].q, room, c, pyt);
+			fill_wr((*room)[i].n, pyt, 0, ants);
+			look_name((*room)[i].q, room, c, pyt, ants);
 			(*room)[i].in = 0;
 		}
 		i++;
@@ -83,20 +93,21 @@ void 	get_way(t_lb *bs, int l)
 		if (room[i].fl && room[i].fen)
 		{
 			bs->go1[l].l = room[i].l;
-			fill_wr(room[i].n, &bs->go1[l]);
+			fill_wr(room[i].n, &bs->go1[l].ww, 0, bs->na);
 			/*trash = room[i].n;
 			bs->way = ft_strdup(trash);
 			ft_strdel(&trash);
 			trash = bs->way;
 			bs->way = ft_strjoin(trash, " ");
 			ft_strdel(&trash);*/
-			look_name(room[i].q, &bs->r, bs->c, &bs->go1[l]);
+			//*************************  6  параметрів *******************
+			look_name(room[i].q, &bs->r, bs->c, &bs->go1[l].ww, bs->na);
 			break;
 		}
 		i++;
 	}
 	check_start_end_in_way(&(bs->go1[l]), bs->start, bs->end);
-	ft_printf("-----------WAY--------");
+//	ft_printf("-----------WAY--------");
 //	ft_printf("%s\n", bs->go->res);
 	set_fl_to_zero(&bs->r, bs->c);
 }

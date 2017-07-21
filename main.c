@@ -180,7 +180,7 @@ end-2
 end-5
 end-0
 
- 2
+2
 ##start
 start 0 1
 ##end
@@ -241,4 +241,24 @@ end-11
 end-12
 end-4
 end-1
+
+мінімальна кількість шляхів
+ правильно 2
+ не привально 1
+3
+##start
+start 23 3
+4 16 7
+#comment
+1 16 3
+3 16 5
+2 9 3
+##end
+end 9 5
+start-1
+start-3
+3-4
+3-2
+4-end
+2-end
  */
