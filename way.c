@@ -1,6 +1,6 @@
 #include "lem-in.h"
 
-int 	is_temp_l(t_rs *rooms, int i, int *min)
+int 	is_temp_l(t_rs *rooms, int i, int min)
 {
 	int c;
 
@@ -9,7 +9,7 @@ int 	is_temp_l(t_rs *rooms, int i, int *min)
 	{
 		if (!rooms[c].fl && rooms[c].in && rooms[c].l != 2147483647)
 		{
-			*min = rooms[c].l;
+			min = rooms[c].l;
 			return (1);
 		}
 		c++;
@@ -17,7 +17,7 @@ int 	is_temp_l(t_rs *rooms, int i, int *min)
 	return (0);
 }
 
-int 	set_const_l(t_rs *rooms, int i, int **min)
+int 	set_const_l(t_rs *rooms, int i, int *min)
 {
 	int c;
 	int f;
@@ -30,9 +30,9 @@ int 	set_const_l(t_rs *rooms, int i, int **min)
 		return (-1);
 	while (c < i)
 	{
-		if (!rooms[c].fl && rooms[c].in && rooms[c].l <= **min)
+		if (!rooms[c].fl && rooms[c].in && rooms[c].l <= *min)
 		{
-			**min = rooms[c].l;
+			*min = rooms[c].l;
 			f = c;
 			t++;
 		}
@@ -47,27 +47,26 @@ int 	set_const_l(t_rs *rooms, int i, int **min)
 	return (f);
 }
 
-void 	find_name_n2(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
+void find_name_n2(t_lb *bs, int *l, t_lnk *link)
 {
 	int	c;
 
 	c = 0;
-	while (c < i)
+	while (c < bs->c)
 	{
-		if (!rooms[c].fl && rooms[c].in && ft_strequ(link->n2, rooms[c].n))
+		if (!bs->r[c].fl && bs->r[c].in && ft_strequ(link->n2, bs->r[c].n))
 		{
 			if (*l == 2147483647)
 				*l = 1;
-			if (*l + 1 <= rooms[c].l)
+			if (*l + 1 <= bs->r[c].l)
 			{
-				if (rooms[c].l == 2147483647)
-					rooms[c].l = 1;
-				if (rooms[c].q)
-					ft_strdel(&rooms[c].q);
-				rooms[c].q = ft_strdup(link->n1);
-				rooms[c].l = (*l + 1 == rooms[c].l) ? *l + 1 : rooms[c].l + *l;
-				**min = rooms[c].l;
-				//link->in = 0;
+				if (bs->r[c].l == 2147483647)
+					bs->r[c].l = 1;
+				if (bs->r[c].q)
+					ft_strdel(&bs->r[c].q);
+				bs->r[c].q = ft_strdup(link->n1);
+				bs->r[c].l = (*l + 1 == bs->r[c].l) ? *l + 1 : bs->r[c].l + *l;
+				bs->min = bs->r[c].l;
 			}
 			return ;
 		}
@@ -75,27 +74,26 @@ void 	find_name_n2(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 	}
 }
 
-void 	find_name_n1(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
+void find_name_n1(t_lb *bs, int *l, t_lnk *link)
 {
 	int	c;
 
 	c = 0;
-	while (c < i)
+	while (c < bs->c)
 	{
-		if (!rooms[c].fl && rooms[c].in && ft_strequ(link->n1, rooms[c].n))
+		if (!bs->r[c].fl && bs->r[c].in && ft_strequ(link->n1, bs->r[c].n))
 		{
 			if (*l == 2147483647)
 				*l = 1;
-			if (*l + 1 <= rooms[c].l)
+			if (*l + 1 <= bs->r[c].l)
 			{
-				if (rooms[c].l == 2147483647)
-					rooms[c].l = 1;
-				if (rooms[c].q)
-					ft_strdel(&rooms[c].q);
-				rooms[c].q = ft_strdup(link->n2);
-				rooms[c].l = (*l + 1 == rooms[c].l) ? *l + 1 : rooms[c].l + *l;
-				**min = rooms[c].l;
-				//link->in = 0;
+				if (bs->r[c].l == 2147483647)
+					bs->r[c].l = 1;
+				if (bs->r[c].q)
+					ft_strdel(&bs->r[c].q);
+				bs->r[c].q = ft_strdup(link->n2);
+				bs->r[c].l = (*l + 1 == bs->r[c].l) ? *l + 1 : bs->r[c].l + *l;
+				bs->min = bs->r[c].l;
 			}
 			return ;
 		}
@@ -103,22 +101,22 @@ void 	find_name_n1(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 	}
 }
 
-int		find_link(t_rs **rooms, t_lnk *link, int i, int *min)
+int find_link(t_lb *bs)
 {
 	t_lnk	*tmp;
 	int		f;
 
-	tmp = link;
-	if ((f = set_const_l((*rooms), i, &min)) == -1)
+	tmp = bs->link;
+	if ((f = set_const_l((bs->r), bs->c, &bs->min)) == -1)
 		return (1);
 	if (f == -2)
 		return (-2);
 	while (tmp)
 	{
-		if ((ft_strequ((*rooms)[f].n, tmp->n1) && tmp->in))
-			find_name_n2(tmp, (*rooms), i, &(*rooms)[f].l, &min);
-		else if (ft_strequ((*rooms)[f].n, tmp->n2) && tmp->in)
-			find_name_n1(tmp, (*rooms), i, &(*rooms)[f].l, &min);
+		if ((ft_strequ(bs->r[f].n, tmp->n1) && tmp->in))
+			find_name_n2(bs, &(bs->r[f].l), tmp);
+		else if (ft_strequ(bs->r[f].n, tmp->n2) && tmp->in)
+			find_name_n1(bs, &(bs->r[f].l), tmp);
 		tmp = tmp->nx;
 	}
 	return (2);
@@ -156,19 +154,18 @@ int		counte_start_end(t_rs *room, t_lnk *links, int k)
 int		try_way(t_lb *bs)
 {
 	int r;
-	int c;
 
-	c = -1;
+	bs->mysor = -1;
 	if ((bs->nway = counte_start_end(bs->r, bs->link, bs->c)) <= 0)
 		return (0);
 	if (!(bs->go1 = (t_sr *)malloc(sizeof(t_sr) * bs->nway)))
 		return (0);
-	while (++c < bs->nway)
+	while (++bs->mysor < bs->nway)
 	{
-		bs->go1[c].ww = NULL;
+		bs->go1[bs->mysor].ww = NULL;
 		while (1)
 		{
-			r = find_link(&bs->r, bs->link, bs->c, &bs->min);
+			r = find_link(bs);
 			if (r == 1)
 				break;
 			else if (r == 0)
@@ -176,7 +173,7 @@ int		try_way(t_lb *bs)
 			if (r == -2)
 				return (0);
 		}
-		get_way(bs, c);//записати маршрут і помітити кімнати та лінки як пройдені
+		get_way(bs, bs->mysor);
 	}
 	if (!push_ants(bs))
 		return (0);

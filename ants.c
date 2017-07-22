@@ -11,19 +11,15 @@ void 	check_all_way(t_sr *way, int nway, char *start, int *antsinend)
 		if (!way[i].ww)
 			return ;
 		tmp = way[i].ww;
-		if (tmp->nx->in != 0)
-		{
-			(*antsinend)++;
-			ft_printf("L%d-%s ", tmp->nx->in, tmp->n);
+		if (tmp->nx->in != 0 && (*antsinend)++ &&
+				ft_printf("L%d-%s ", tmp->nx->in, tmp->n))
 			tmp->nx->in = 0;
-		}
 		tmp = tmp->nx;
 		while (tmp)
 		{
 			if (tmp->in == 0 && (!ft_strequ(tmp->n, start)))
-				if (tmp->nx->in)
+				if (tmp->nx->in && (tmp->in = tmp->nx->in))
 				{
-					tmp->in = tmp->nx->in;
 					tmp->nx->in = 0;
 					ft_printf("L%d-%s ", tmp->in, tmp->n);
 				}

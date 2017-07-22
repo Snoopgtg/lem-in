@@ -20,7 +20,7 @@ int 	fill_name(char *s, t_lb *bs)
 	tmp = ft_strsub(s, 0 , (size_t)(i - 1));
 	ft_printf("%s\n", s);
 	ft_strdel(&s);
-	fill_room(bs, tmp);
+	fill_room(bs, tmp, NULL);
 	ft_strdel(&tmp);
 	ft_strdel(&s);
 	return (1);
@@ -55,41 +55,31 @@ int		check_dubl_name(t_rn *rooms, char *n)
 	return (0);
 }
 
-
-void	fill_room(t_lb *bs, char *s)
+void 	fill_room(t_lb *bs, char *s, t_rn *tmp)
 {
-	t_rn *tmp;
-
-	if (bs->rnm && check_dubl_name(bs->rnm, s))
+	if (bs->rnm && (bs->re = 1) && check_dubl_name(bs->rnm, s))
 		return ;
 	if (!(tmp = (t_rn *)malloc(sizeof(t_rn))))
 		return ;
-	bs->re = 1; //чи можна якось присвоїти лише один раз, для зменшення кількості операцій
 	tmp->n = ft_strdup(s);
-	if (bs->fst)
+	if (bs->fst && (tmp->fst = 1))
 	{
-		tmp->fst = 1;
 		tmp->fen = 0;
 		bs->fst = 0;
 		bs->se = 1;
 		bs->min = 0;
 		bs->start = ft_strdup(tmp->n);
 	}
-	else if (bs->fen)
+	else if (bs->fen && (tmp->fen = 1))
 	{
-		tmp->fen = 1;
 		tmp->fst = 0;
 		bs->fen = 0;
 		bs->ee = 1;
 		bs->end = ft_strdup(tmp->n);
 	}
-	else
-	{
-		tmp->fst = 0;
+	else if (!(tmp->fst = 0))
 		tmp->fen = 0;
-	}
 	tmp->nx = bs->rnm;
 	bs->rnm = tmp;
-	//print_list(bs);
 }
 

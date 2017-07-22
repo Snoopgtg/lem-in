@@ -98,6 +98,8 @@ typedef struct		s_lb
 	int				min;
 	int				nway;
 	int 			mysor;
+	int 			mysorf;
+	int 			mysori;
 }					t_lb;
 
 
@@ -113,7 +115,7 @@ int		ft_create(t_rn *room, t_rs **rs, int *i);
 
 int 	fill_name(char *s, t_lb *bs);
 int 	check_room_name(char *s);
-void 	fill_room(t_lb *bs, char *s);
+void 	fill_room(t_lb *bs, char *s, t_rn *tmp);
 
 int 	ft_start(char *s, t_lb *bs);
 
@@ -122,7 +124,7 @@ int		check_links(char *s, t_lb *bs);
 int 	try_way(t_lb *bs);
 
 void 	set_name(char *str, char **n, int f);
-void get_way(t_lb *bs, int l);
+void 	get_way(t_lb *bs, int l);
 void	check_start_end_in_way(t_sr *way, char *start, char *end);
 
 void	ft_del(t_lb *bs);

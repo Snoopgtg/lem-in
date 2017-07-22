@@ -26,7 +26,8 @@ int 	ft_hesh_start_end(char *s, t_lb *bs, int fd)
 	}
 	ft_printf("%s\n", s);
 	ft_strdel(&s);
-	get_next_line(fd, &s);
+	while (get_next_line(fd, &s) && ft_printf("%s\n", s) && *s == '#' )
+		if (*s );
 	return (ft_start(s, bs));
 }
 
@@ -75,7 +76,7 @@ int 	ft_start(char *s, t_lb *bs)
 	int i;
 
 	i = 0;
-	if (check_room_name(s) || *s == 'L')
+	if (!(*s) || *s == 'L' || *s == ' ' || *s == '-' || check_room_name(s))
 		return (0);
 	while ((s[i] != ' ' && s[i] != '-') && s[i])
 		i++;
@@ -99,7 +100,7 @@ int		main(int argc, char **argv)
 	//*****************************DELETE*********************************
 	if (argc || argv)
 		;
-	fd = open(argv[2], O_RDONLY);
+	fd = open(argv[1], O_RDONLY);
 	//fd = 0;
 	//********************************************************************
 
@@ -119,7 +120,7 @@ int		main(int argc, char **argv)
 		else if (r == 2 || (r == 0 && bs.link))
 			break ;
 	}
-	if (bs.se && bs.ee && bs.re && (!ft_create(bs.rnm, &bs.r, &bs.c) || !try_way(&bs)))
+	if (!bs.se || !bs.ee || !bs.re || (!ft_create(bs.rnm, &bs.r, &bs.c) || !try_way(&bs)))
 	{
 		write(1, "ERROR in links\n", 15);
 		return (1);//спробувати порахувати з тих даних що ввели і ретурт прибрати

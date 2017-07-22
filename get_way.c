@@ -28,23 +28,23 @@ void fill_wr(char *str, t_wr1 **resway, int start, int ants)
 	}
 }
 
-void 	look_name(char *n, t_rs **room, int c, t_wr1 **pyt, int ants)
+void look_name(char *n, t_wr1 **pyt, t_lb *bs)
 {
 	int i;
 
 	i = 0;
-	while (i < c)
+	while (i < bs->c)
 	{
-		if ((*room)[i].fst && ft_strequ((*room)[i].n, n))
+		if (bs->r[i].fst && ft_strequ(bs->r[i].n, n))
 		{
-			fill_wr((*room)[i].n, pyt, 1, ants);
+			fill_wr(bs->r[i].n, pyt, 1, bs->na);
 			return ;
 		}
-		if ((*room)[i].fl && ft_strequ((*room)[i].n, n))
+		if (bs->r[i].fl && ft_strequ(bs->r[i].n, n))
 		{
-			fill_wr((*room)[i].n, pyt, 0, ants);
-			look_name((*room)[i].q, room, c, pyt, ants);
-			(*room)[i].in = 0;
+			fill_wr(bs->r[i].n, pyt, 0, bs->na);
+			look_name(bs->r[i].q, pyt, bs);
+			bs->r[i].in = 0;
 		}
 		i++;
 	}
@@ -62,8 +62,7 @@ void	get_way(t_lb *bs, int l)
 		{
 			bs->go1[l].l = room[i].l;
 			fill_wr(room[i].n, &bs->go1[l].ww, 0, bs->na);
-			//*************************  5  параметрів *******************
-			look_name(room[i].q, &bs->r, bs->c, &bs->go1[l].ww, bs->na);
+			look_name(room[i].q, &bs->go1[l].ww, bs);
 			break;
 		}
 		i++;

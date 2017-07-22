@@ -39,28 +39,27 @@ int		check_links(char *s, t_lb *bs)
 {
 	t_rn 	*tmp;
 	char 	*str;
-	int		i;
-	int		f;
 
-	f = 0;
-	i = 0;
+	bs->mysorf = 0;
+	bs->mysori = 0;
 	bs->mysor = 0;
 	if (!bs->rnm)
 		return (0);
-	while (s[i] != '-')
-		i++;
-	str = ft_strsub(s, 0, (size_t)i);
+	while (s[bs->mysori] != '-')
+		bs->mysori++;
+	str = ft_strsub(s, 0, (size_t)bs->mysori);
 	tmp = bs->rnm;
 	while (tmp)
 	{
-		(ft_strequ(str, tmp->n)) ? f = 1 : 0;
-		(ft_strequ(s + i + 1, tmp->n)) ? bs->mysor = 1 : 0;
+		(ft_strequ(str, tmp->n)) ? bs->mysorf = 1 : 0;
+		(ft_strequ(s + bs->mysori + 1, tmp->n)) ? bs->mysor = 1 : 0;
 		tmp = tmp->nx;
 	}
-	if (!f || !bs->mysor)
+	if (!bs->mysorf || !bs->mysor)
 	{
 		ft_strdel(&str);
 		return (2);
 	}
-	return (fill_links(s, str, i, bs));
+	ft_printf("%s\n", s);
+	return (fill_links(s, str, bs->mysori, bs));
 }

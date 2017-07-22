@@ -29,6 +29,7 @@ int 	check_int(char *s, int f)
 {
 	long n;
 
+
 	n = ft_longatoi(s);
 	if (f == 2 && (n <= (-2147483649) || n >= 2147483648))
 		return (0);
