@@ -1,16 +1,45 @@
 #include "lem-in.h"
 
-/*void	print_list(t_lb *bs)
+/*
+** startend flag for start 1
+** 					end 2
+**					default 0
+** імя має бути чаром;
+*/
+int 	fill_name(char *s, t_lb *bs)
 {
-	t_rn *tmp;
+	int i;
+	char *tmp;
 
-	tmp = bs->rnm;
-	while (tmp)
+	i = 0;
+	while (s[i] != ' ')
+		i++;
+	i++;
+	if (!check_pos(s + i, 2))
+		return (0);
+	tmp = ft_strsub(s, 0 , (size_t)(i - 1));
+	ft_printf("%s\n", s);
+	ft_strdel(&s);
+	fill_room(bs, tmp);
+	ft_strdel(&tmp);
+	ft_strdel(&s);
+	return (1);
+}
+
+int 	check_room_name(char *s)
+{
+	int i;
+
+	i = 0;
+	while (s[i] && s[i] != ' ' && s[i] != '-')
 	{
-		ft_printf(RED"name = %s fst = %d fen = %d\n"RC, tmp->n, tmp->fst, tmp->fen);
-		tmp = tmp->nx;
+		if (ft_isalnum(s[i]))
+			i++;
+		else
+			return (1);
 	}
-}*/
+	return (0);
+}
 
 int		check_dubl_name(t_rn *rooms, char *n)
 {

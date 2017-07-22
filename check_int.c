@@ -2,9 +2,9 @@
 
 long	ft_longatoi(const char *str)
 {
-	int i;
-	int m;
-	long res;
+	int		i;
+	int		m;
+	long	res;
 
 	i = 0;
 	m = 1;
@@ -25,7 +25,7 @@ long	ft_longatoi(const char *str)
 	return (res);
 }
 
-int check_int(char *s, int f)
+int 	check_int(char *s, int f)
 {
 	long n;
 
@@ -53,9 +53,3 @@ int		check_pos(char *s, int a)
 		return (0);
 	return (check_pos(s + i + 1, --a));
 }
-
-/*
-int		fill_link(char *s)
-{
-
-}*/

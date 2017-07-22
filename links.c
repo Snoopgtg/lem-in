@@ -1,18 +1,6 @@
 #include "lem-in.h"
 
-/*void	print_links(t_lb *bs)
-{
-	t_lnk *tmp;
-
-	tmp = bs->link;
-	while (tmp)
-	{
-		ft_printf(YEL"n1 = %s, n2 = %s\n"RC, tmp->n1, tmp->n2);
-		tmp = tmp->nx;
-	}
-}*/
-
-int check_dubl_link(t_lnk *link, char *n1, char *n2)
+int 	check_dubl_link(t_lnk *link, char *n1, char *n2)
 {
 	t_lnk *tmp;
 
@@ -44,7 +32,6 @@ int		fill_links(char *s, char *str, int i, t_lb *bs)
 	bs->link = tmp;
 	ft_strdel(&s);
 	ft_strdel(&str);
-	//print_links(bs);
 	return (1);
 }
 
@@ -54,11 +41,10 @@ int		check_links(char *s, t_lb *bs)
 	char 	*str;
 	int		i;
 	int		f;
-	int		t;
 
-	t = 0;
 	f = 0;
 	i = 0;
+	bs->mysor = 0;
 	if (!bs->rnm)
 		return (0);
 	while (s[i] != '-')
@@ -67,17 +53,14 @@ int		check_links(char *s, t_lb *bs)
 	tmp = bs->rnm;
 	while (tmp)
 	{
-		if (ft_strequ(str, tmp->n))
-			f = 1;
-		if (ft_strequ(s + i + 1, tmp->n))
-			t = 1;
+		(ft_strequ(str, tmp->n)) ? f = 1 : 0;
+		(ft_strequ(s + i + 1, tmp->n)) ? bs->mysor = 1 : 0;
 		tmp = tmp->nx;
 	}
-	if (!f || !t)
+	if (!f || !bs->mysor)
 	{
 		ft_strdel(&str);
 		return (2);
 	}
-	ft_printf("%s\n", s);
 	return (fill_links(s, str, i, bs));
 }

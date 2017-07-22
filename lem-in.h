@@ -97,6 +97,7 @@ typedef struct		s_lb
 	int 			re;
 	int				min;
 	int				nway;
+	int 			mysor;
 }					t_lb;
 
 
@@ -110,6 +111,8 @@ void	set_fl_to_zero(t_rs **room, int c);
 
 int		ft_create(t_rn *room, t_rs **rs, int *i);
 
+int 	fill_name(char *s, t_lb *bs);
+int 	check_room_name(char *s);
 void 	fill_room(t_lb *bs, char *s);
 
 int 	ft_start(char *s, t_lb *bs);

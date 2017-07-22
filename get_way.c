@@ -6,7 +6,6 @@
 **/
 void fill_wr(char *str, t_wr1 **resway, int start, int ants)
 {
-	//t_wr	*tmp;
 	t_wr1	*temp;
 	t_wr1	*curr;
 
@@ -27,19 +26,11 @@ void fill_wr(char *str, t_wr1 **resway, int start, int ants)
 			curr = curr->nx;
 		curr->nx = temp;
 	}
-
-	/*temp->nx = resway->ww;
-	if (resway->ww != NULL)
-		resway->ww->pr = temp;
- 	resway->ww = temp;
-	temp->pr = NULL;*/
-
 }
 
-void look_name(char *n, t_rs **room, int c, t_wr1 **pyt, int ants)
+void 	look_name(char *n, t_rs **room, int c, t_wr1 **pyt, int ants)
 {
 	int i;
-	//char *trash;
 
 	i = 0;
 	while (i < c)
@@ -61,12 +52,9 @@ void look_name(char *n, t_rs **room, int c, t_wr1 **pyt, int ants)
 void	get_way(t_lb *bs, int l)
 {
 	int		i;
-	int 	f;
 	t_rs	*room;
-	//char 	*trash;
 
 	i = 0;
-	f = 0;
 	room = bs->r;
 	while (i < bs->c)
 	{
@@ -74,21 +62,13 @@ void	get_way(t_lb *bs, int l)
 		{
 			bs->go1[l].l = room[i].l;
 			fill_wr(room[i].n, &bs->go1[l].ww, 0, bs->na);
-			/*trash = room[i].n;
-			bs->way = ft_strdup(trash);
-			ft_strdel(&trash);
-			trash = bs->way;
-			bs->way = ft_strjoin(trash, " ");
-			ft_strdel(&trash);*/
-			//*************************  6  параметрів *******************
+			//*************************  5  параметрів *******************
 			look_name(room[i].q, &bs->r, bs->c, &bs->go1[l].ww, bs->na);
 			break;
 		}
 		i++;
 	}
 	check_start_end_in_way(&(bs->go1[l]), bs->start, bs->end);
-//	ft_printf("-----------WAY--------");
-//	ft_printf("%s\n", bs->go->res);
 	set_fl_to_zero(&bs->r, bs->c);
 }
 

@@ -4,32 +4,6 @@
 #include <fcntl.h>
 //*************************************************************************
 
-/*
-** startend flag for start 1
-** 					end 2
-**					default 0
-** імя має бути чаром;
-*/
-int 	fill_name(char *s, t_lb *bs)
-{
-	int i;
-	char *tmp;
-
-	i = 0;
-	while (s[i] != ' ')
-		i++;
-	i++;
-	if (!check_pos(s + i, 2))
-		return (0);
-	tmp = ft_strsub(s, 0 , (size_t)(i - 1));
-	ft_printf("%s\n", s);
-	ft_strdel(&s);
-	fill_room(bs, tmp);
-	ft_strdel(&tmp);
-	ft_strdel(&s);
-	return (1);
-}
-
 int 	ft_hesh_start_end(char *s, t_lb *bs, int fd)
 {
 	if (ft_strequ("##start", s))
@@ -96,21 +70,6 @@ int 	ft_numofant(char *s, int *na, int *fna)
 	return (1);
 }
 
-int 	check_room_name(char *s)
-{
-	int i;
-
-	i = 0;
-	while (s[i] && s[i] != ' ' && s[i] != '-')
-	{
-		if (ft_isalnum(s[i]))
-			i++;
-		else
-			return (1);
-	}
-	return (0);
-}
-
 int 	ft_start(char *s, t_lb *bs)
 {
 	int i;
@@ -140,7 +99,7 @@ int		main(int argc, char **argv)
 	//*****************************DELETE*********************************
 	if (argc || argv)
 		;
-	fd = open(argv[1], O_RDONLY);
+	fd = open(argv[2], O_RDONLY);
 	//fd = 0;
 	//********************************************************************
 

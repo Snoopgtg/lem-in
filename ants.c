@@ -1,6 +1,6 @@
 #include "lem-in.h"
 
-void check_all_way(t_sr *way, int nway, char *start, int *antsinend)
+void 	check_all_way(t_sr *way, int nway, char *start, int *antsinend)
 {
 	t_wr1	*tmp;
 	int 	i;
@@ -32,7 +32,7 @@ void check_all_way(t_sr *way, int nway, char *start, int *antsinend)
 	}
 }
 
-void check_start(t_lb *bs, int *antisend)
+void 	check_start(t_lb *bs, int *antisend)
 {
 	int		i;
 	t_wr1	*tmp;
@@ -62,7 +62,7 @@ void check_start(t_lb *bs, int *antisend)
 	}
 }
 
-int push_ants(t_lb *bs)
+int 	push_ants(t_lb *bs)
 {
 	int i;
 
@@ -75,14 +75,14 @@ int push_ants(t_lb *bs)
 	{
 		check_all_way(bs->go1, bs->nway, bs->start, &i);
 		check_start(bs, &i);
-		if ((ft_strequ(bs->go1[0].ww->n, bs->end) && ft_strequ(bs->go1[0].ww->nx->n, bs->start)))
+		if ((ft_strequ(bs->go1[0].ww->n, bs->end) &&ft_strequ(bs->go1[0].ww->nx->n, bs->start)))
 			;
 		else
 			write(1, "\n", 1);
-
-		//print_ants();
 	}
 	if (ft_strequ(bs->go1[0].ww->n, bs->end) && ft_strequ(bs->go1[0].ww->nx->n, bs->start))
 		write(1, "\n", 1);
 	return (1);
 }
+//****************************************
+// правильність виводу!!!!!!!!!!!!!!!!

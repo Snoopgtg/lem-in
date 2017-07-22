@@ -49,7 +49,7 @@ int 	set_const_l(t_rs *rooms, int i, int **min)
 
 void 	find_name_n2(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 {
-	int		c;
+	int	c;
 
 	c = 0;
 	while (c < i)
@@ -77,7 +77,7 @@ void 	find_name_n2(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 
 void 	find_name_n1(t_lnk *link, t_rs *rooms, int i, int *l, int **min)
 {
-	int		c;
+	int	c;
 
 	c = 0;
 	while (c < i)
@@ -107,9 +107,7 @@ int		find_link(t_rs **rooms, t_lnk *link, int i, int *min)
 {
 	t_lnk	*tmp;
 	int		f;
-	int 	c;
 
-	c = 0;
 	tmp = link;
 	if ((f = set_const_l((*rooms), i, &min)) == -1)
 		return (1);
@@ -117,14 +115,12 @@ int		find_link(t_rs **rooms, t_lnk *link, int i, int *min)
 		return (-2);
 	while (tmp)
 	{
-		if ((ft_strequ((*rooms)[f].n, tmp->n1) && tmp->in) && (c = 1))
+		if ((ft_strequ((*rooms)[f].n, tmp->n1) && tmp->in))
 			find_name_n2(tmp, (*rooms), i, &(*rooms)[f].l, &min);
-		else if (ft_strequ((*rooms)[f].n, tmp->n2) && tmp->in && (c = 1))
+		else if (ft_strequ((*rooms)[f].n, tmp->n2) && tmp->in)
 			find_name_n1(tmp, (*rooms), i, &(*rooms)[f].l, &min);
 		tmp = tmp->nx;
 	}
-	/*if (c == 0)
-		return (1);*/
 	return (2);
 }
 
@@ -178,10 +174,7 @@ int		try_way(t_lb *bs)
 			else if (r == 0)
 				return (0);
 			if (r == -2)
-			{
-				write(1, "ERROR no link whith finish\n", 27);
 				return (0);
-			}
 		}
 		get_way(bs, c);//записати маршрут і помітити кімнати та лінки як пройдені
 	}
