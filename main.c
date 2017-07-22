@@ -10,7 +10,7 @@
 **					default 0
 ** імя має бути чаром;
 */
-int fill_name(char *s, t_lb *bs)
+int 	fill_name(char *s, t_lb *bs)
 {
 	int i;
 	char *tmp;
@@ -30,7 +30,7 @@ int fill_name(char *s, t_lb *bs)
 	return (1);
 }
 
-int ft_hesh_start_end(char *s, t_lb *bs, int fd)
+int 	ft_hesh_start_end(char *s, t_lb *bs, int fd)
 {
 	if (ft_strequ("##start", s))
 	{
@@ -77,12 +77,12 @@ int ft_hesh(char *s, t_lb *bs, int fd)
 
 }
 
-int ft_numofant(char *s, int *na, int *fna)
+int 	ft_numofant(char *s, int *na, int *fna)
 {
 	int		i;
 
 	if (*fna)
-		return (0);
+		return (2);
 	i = -1;
 	while (s[++i])
 		if (!ft_isdigit(s[i]))
@@ -96,20 +96,35 @@ int ft_numofant(char *s, int *na, int *fna)
 	return (1);
 }
 
-int ft_start(char *s, t_lb *bs)
+int 	check_room_name(char *s)
 {
 	int i;
 
 	i = 0;
-	if (*s == '-' || *s == ' ' || *s == 'L')
+	while (s[i] && s[i] != ' ' && s[i] != '-')
+	{
+		if (ft_isalnum(s[i]))
+			i++;
+		else
+			return (1);
+	}
+	return (0);
+}
+
+int 	ft_start(char *s, t_lb *bs)
+{
+	int i;
+
+	i = 0;
+	if (check_room_name(s) || *s == 'L')
 		return (0);
 	while ((s[i] != ' ' && s[i] != '-') && s[i])
 		i++;
-	if (s[i] == '\0')
+	if (s[i] == '\0' && !bs->fst && !bs->fen)
 		return (ft_numofant(s, &bs->na, &bs->fna));
-	else if (s[i] == ' ')
+	else if (s[i] == ' ' && bs->fna)
 		return (fill_name(s, bs));
-	else if (s[i] == '-')
+	else if (s[i] == '-' && bs->fna && bs->re && bs->se && bs->ee)
 		return (check_links(s, bs));
 	return (0);
 
@@ -128,29 +143,24 @@ int		main(int argc, char **argv)
 	fd = open(argv[1], O_RDONLY);
 	//fd = 0;
 	//********************************************************************
-	bs.rnm = NULL;
-	bs.link = NULL;
-	bs.r = NULL;
-	bs.go1 = NULL;
+
 	line = 0;
 	fill_zero(&bs);
 	while (get_next_line(fd, &line))
 	{
 		if (line[0] == '#')
-		{
 			r = ft_hesh(line, &bs, fd);
-		}
 		else
-		{
 			r = ft_start(line, &bs);
-		}
-		if (r == 0)
+		if (r == 0 && !bs.link)
 		{
 			write(1, "ERROR\n", 6);
 			return (1);
 		}
+		else if (r == 2 || (r == 0 && bs.link))
+			break ;
 	}
-	if (!bs.fna || !bs.se || !bs.ee || !ft_create(bs.rnm, &bs.r, &bs.c) || !try_way(&bs))
+	if (bs.se && bs.ee && bs.re && (!ft_create(bs.rnm, &bs.r, &bs.c) || !try_way(&bs)))
 	{
 		write(1, "ERROR in links\n", 15);
 		return (1);//спробувати порахувати з тих даних що ввели і ретурт прибрати

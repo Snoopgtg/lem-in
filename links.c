@@ -76,7 +76,7 @@ int		check_links(char *s, t_lb *bs)
 	if (!f || !t)
 	{
 		ft_strdel(&str);
-		return (0);
+		return (2);
 	}
 	ft_printf("%s\n", s);
 	return (fill_links(s, str, i, bs));

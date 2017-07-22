@@ -35,6 +35,7 @@ void	fill_room(t_lb *bs, char *s)
 		return ;
 	if (!(tmp = (t_rn *)malloc(sizeof(t_rn))))
 		return ;
+	bs->re = 1; //чи можна якось присвоїти лише один раз, для зменшення кількості операцій
 	tmp->n = ft_strdup(s);
 	if (bs->fst)
 	{

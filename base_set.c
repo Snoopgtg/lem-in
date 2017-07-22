@@ -2,12 +2,17 @@
 
 void	fill_zero(t_lb *bs)
 {
+	bs->rnm = NULL;
+	bs->link = NULL;
+	bs->r = NULL;
+	bs->go1 = NULL;
 	bs->fna = 0;
 	bs->fst = 0;
 	bs->fen = 0;
 	bs->c = 0;
 	bs->se = 0;
 	bs->ee = 0;
+	bs->re = 0;
 	bs->min = 2147483647;
 }
 

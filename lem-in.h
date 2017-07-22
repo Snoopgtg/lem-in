@@ -10,7 +10,6 @@
 ** s_lnk	links of rooms
 ** s_rn		list of room names
 ** *nx		next element of list
-** *bg		begin first element of list
 ** na		number of ant
 ** naa		number of ant for go it
 ** fna		flag for only one number of ant
@@ -24,13 +23,13 @@
 ** s_wr1	list of all possible way
 ** s_sr		array of list of all possible way
 ** q 		name of room from
-** len		length of way in current room
-** m		weight of link
+** l		length of way in current room
 ** fl		1 - const mark
 ** 			0 - temp mark
 ** c		number of elements in list room names
 ** se		for check start error
 ** ee		for check end error
+** re		for check empty room error
 ** min		min l in room
 ** nway		number of way
 */
@@ -95,6 +94,7 @@ typedef struct		s_lb
 	int 			fen;
 	int				se;
 	int 			ee;
+	int 			re;
 	int				min;
 	int				nway;
 }					t_lb;
